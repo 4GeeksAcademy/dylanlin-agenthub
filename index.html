@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentHub - Panel de Administración</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuración de Tailwind para soportar modo oscuro por clase
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200">
+
+    <div class="flex min-h-screen">
+        
+        <!-- SIDEBAR DE NAVEGACIÓN (Componente 3.1) -->
+        <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between p-4 z-40">
+            <div>
+                <div class="flex items-center gap-2 px-2 py-4">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-xl font-bold text-white tracking-wider">AgentHub</span>
+                </div>
+                
+                <!-- Menú Semántico -->
+                <nav class="mt-6 space-y-1" aria-label="Navegación principal">
+                    <a href="#dashboard" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                        <span>📊</span> Dashboard
+                    </a>
+                    <a href="#agentes" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                        <span>👥</span> Gestión de Agentes
+                    </a>
+                    <a href="#playground" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                        <span>💻</span> Playground
+                    </a>
+                    <a href="#seguridad" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                        <span>🔑</span> API Keys
+                    </a>
+                    <a href="#logs" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                        <span>🔔</span> Logs y Alertas
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Perfil de Administrador y Toggle de Modo Oscuro -->
+            <div class="border-t border-slate-800 pt-4 space-y-4">
+                <!-- Switch Modo Oscuro -->
+                <div class="flex items-center justify-between px-2">
+                    <span class="text-sm font-medium">Modo Oscuro</span>
+                    <button id="dark-mode-toggle" class="w-11 h-6 bg-slate-700 rounded-full p-0.5 transition-colors focus:outline-none" aria-label="Cambiar modo oscuro">
+                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200" id="dark-mode-circle"></div>
+                    </button>
+                </div>
+                
+                <!-- Perfil -->
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
+                        AD
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-white">Admin Operaciones</p>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-900/50 text-indigo-300">
+                            SuperAdmin
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 p-8 overflow-y-auto space-y-12">
+
+            <!-- SECCIÓN 3.2: DASHBOARD (Métricas y Actividad) -->
+            <section id="dashboard" class="space-y-6 scroll-mt-8">
+                <h1 class="text-3xl font-extrabold tracking-tight">Panel Principal</h1>
+                
+                <!-- Cuadrícula de Tarjetas de Métricas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div class="text-3xl mb-2">🤖</div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Agentes Activos</p>
+                        <p class="text-2xl font-bold mt-1">12 / 15</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div class="text-3xl mb-2">🪙</div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Consumo de Tokens (Mes)</p>
+                        <p class="text-2xl font-bold mt-1">4.2M</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div class="text-3xl mb-2">📞</div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Llamadas API (Hoy)</p>
+                        <p class="text-2xl font-bold mt-1">48,250</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div class="text-3xl mb-2">📈</div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium font-medium">Tasa de Éxito</p>
+                        <p class="text-2xl font-bold mt-1 text-emerald-600 dark:text-emerald-400">99.8%</p>
+                    </div>
+                </div>
+
+                <!-- Marcador de Gráfico de Actividad -->
+                <div class="bg-slate-100 dark:bg-slate-900/50 p-12 rounded-2xl border-dashed border-2 border-slate-300 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+                    <span class="text-4xl mb-3">📊</span>
+                    <h3 class="font-bold text-lg">Consumo Semanal de Tokens</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mt-1">Visualización simulada de picos de carga y distribución de costos por LLM.</p>
+                </div>
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-800">
+
+            <!-- SECCIÓN 3.3: GESTIÓN DE AGENTES -->
+            <section id="agentes" class="space-y-6 scroll-mt-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 class="text-2xl font-bold">Mis Agentes de IA</h2>
+                    <button id="btn-nuevo-agente" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl transition text-sm font-semibold shadow-md">
+                        + Crear Nuevo Agente
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="flex flex-wrap gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm">
+                    <input type="text" id="buscar-agente" placeholder="Buscar por nombre..." class="flex-1 min-w-[200px] border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <select id="filtrar-modelo" class="border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 bg-white dark:bg-slate-900 focus:outline-none">
+                        <option value="">Todos los modelos</option>
+                        <option value="GPT-4">GPT-4</option>
+                        <option value="Claude 3">Claude 3</option>
+                        <option value="Llama 3">Llama 3</option>
+                    </select>
+                </div>
+
+                <!-- Tabla Dinámica -->
+                <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+                        <thead class="bg-slate-50 dark:bg-slate-800/50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Nombre</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Modelo</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Tokens Consumidos</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase">Estado</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-agentes-body" class="divide-y divide-slate-200 dark:divide-slate-800">
+                            <!-- Agregados dinámicamente o mockeados -->
+                            <tr class="agente-fila">
+                                <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">Agent_Customer_Support</td>
+                                <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Claude 3</td>
+                                <td class="px-6 py-4 text-sm">1.8M</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 text-right relative">
+                                    <button class="menu-acciones-btn text-slate-400 hover:text-slate-600 font-bold px-2">•••</button>
+                                    <div class="dropdown-acciones hidden absolute right-6 mt-1 w-32 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg z-50 py-1 text-left">
+                                        <button class="block w-full px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-slate-700 text-rose-500 font-semibold">Pausar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="agente-fila">
+                                <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">Agent_Marketing_Writer</td>
+                                <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">GPT-4</td>
+                                <td class="px-6 py-4 text-sm">2.4M</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 text-right relative">
+                                    <button class="menu-acciones-btn text-slate-400 hover:text-slate-600 font-bold px-2">•••</button>
+                                    <div class="dropdown-acciones hidden absolute right-6 mt-1 w-32 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg z-50 py-1 text-left">
+                                        <button class="block w-full px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-slate-700 text-rose-500 font-semibold">Pausar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-800">
+
+            <!-- SECCIÓN 3.4: CONSOLE / PLAYGROUND -->
+            <section id="playground" class="space-y-6 scroll-mt-8">
+                <h2 class="text-2xl font-bold">Consola de Pruebas (Playground)</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Entrada de Prompt -->
+                    <div class="space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <div>
+                            <label for="prompt-agent-select" class="block text-sm font-semibold mb-2">Seleccionar Agente</label>
+                            <select id="prompt-agent-select" class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="Agent_Customer_Support">Agent_Customer_Support (Claude 3)</option>
+                                <option value="Agent_Marketing_Writer">Agent_Marketing_Writer (GPT-4)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="prompt-temperature" class="block text-sm font-semibold mb-2">Temperatura LLM: <span id="temp-val" class="text-indigo-600 dark:text-indigo-400">0.7</span></label>
+                            <input type="range" id="prompt-temperature" min="0.0" max="1.0" step="0.1" value="0.7" class="w-full accent-indigo-600">
+                        </div>
+                        <div>
+                            <label for="prompt-text" class="block text-sm font-semibold mb-2">Mensaje del Desarrollador</label>
+                            <textarea id="prompt-text" rows="4" placeholder="Escribe tu prompt de prueba aquí..." class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                        </div>
+                        <button id="btn-ejecutar-prompt" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition">
+                            ⚡ Ejecutar Prompt
+                        </button>
+                    </div>
+
+                    <!-- Output Terminal -->
+                    <div class="flex flex-col bg-black text-emerald-400 font-mono p-6 rounded-2xl min-h-[300px] border border-slate-800 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <span class="text-xs text-slate-500">JSON API TERMINAL OUTPUT</span>
+                            <div class="flex gap-1.5">
+                                <span class="w-3 h-3 bg-rose-500 rounded-full"></span>
+                                <span class="w-3 h-3 bg-amber-500 rounded-full"></span>
+                                <span class="w-3 h-3 bg-emerald-500 rounded-full"></span>
+                            </div>
+                        </div>
+                        <pre id="terminal-output" class="text-sm overflow-auto flex-1 select-all whitespace-pre-wrap">Esperando ejecución del prompt...</pre>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-800">
+
+            <!-- SECCIÓN 3.5: API KEYS Y SEGURIDAD -->
+            <section id="seguridad" class="space-y-6 scroll-mt-8">
+                <h2 class="text-2xl font-bold">Credenciales & API Keys</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Proveedor OpenAI -->
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold">OpenAI Integración</h3>
+                            <span class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-semibold">Conectado</span>
+                        </div>
+                        <div class="relative">
+                            <input type="password" value="sk-proj-48Hnd9S9H1v8sAnJ27Ksm99UvH" readonly class="api-key-input w-full border border-slate-300 dark:border-slate-700 rounded-xl pl-4 pr-12 py-2.5 bg-transparent font-mono text-sm focus:outline-none">
+                            <button class="toggle-api-key absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Mostrar clave">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Proveedor Anthropic -->
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold">Anthropic Integración</h3>
+                            <span class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-semibold">Conectado</span>
+                        </div>
+                        <div class="relative">
+                            <input type="password" value="sk-ant-api03-K9hAsn98shUa_mSu292ns7" readonly class="api-key-input w-full border border-slate-300 dark:border-slate-700 rounded-xl pl-4 pr-12 py-2.5 bg-transparent font-mono text-sm focus:outline-none">
+                            <button class="toggle-api-key absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Mostrar clave">👁️</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-slate-200 dark:border-slate-800">
+
+            <!-- SECCIÓN 3.6: ALERTAS Y LOGS -->
+            <section id="logs" class="space-y-6 scroll-mt-8">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">Consola de Alertas e Incidentes</h2>
+                    <button id="btn-limpiar-logs" class="text-sm font-semibold text-rose-500 hover:text-rose-700 transition">
+                        🗑️ Limpiar Historial
+                    </button>
+                </div>
+
+                <!-- Feed de Logs -->
+                <div id="logs-container" class="space-y-3 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <div class="log-item p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-400 text-sm flex items-center justify-between border border-emerald-100 dark:border-emerald-900/40">
+                        <span>[INFO] Agent_Customer_Support ejecutado con éxito. Ejecución finalizada en 450ms.</span>
+                        <span class="text-xs opacity-75">Hace 2 mins</span>
+                    </div>
+                    <div class="log-item p-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-400 text-sm flex items-center justify-between border border-amber-100 dark:border-amber-900/40">
+                        <span>[WARN] Agent_Marketing_Writer se aproxima al límite de tokens diario configurado (85% de cuota).</span>
+                        <span class="text-xs opacity-75">Hace 15 mins</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL CREACIÓN NUEVO AGENTE -->
+    <div id="modal-agente" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 m-4 space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold">Crear Nuevo Agente</h3>
+                <button id="btn-cerrar-modal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+            </div>
+            
+            <form id="nuevo-agente-form" class="space-y-4">
+                <div>
+                    <label for="nuevo-agente-nombre" class="block text-sm font-semibold mb-1">Nombre del Agente</label>
+                    <input type="text" id="nuevo-agente-nombre" required placeholder="Ej: Agent_Sales_Bot" class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="nuevo-agente-modelo" class="block text-sm font-semibold mb-1">Modelo LLM</label>
+                    <select id="nuevo-agente-modelo" class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="GPT-4">GPT-4</option>
+                        <option value="Claude 3">Claude 3</option>
+                        <option value="Llama 3">Llama 3</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition">
+                    Guardar Agente
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS de Validación e Interactividad -->
+    <script src="validation.js"></script>
+</body>
+</html>
